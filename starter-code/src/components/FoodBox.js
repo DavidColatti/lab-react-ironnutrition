@@ -16,7 +16,7 @@ class FoodBox extends Component {
 							<div className="content">
 								<p>
 									<strong>{this.props.name}</strong> <br />
-									<small>{this.props.calories}</small>
+									<small>{this.props.calories} cal</small>
 								</p>
 							</div>
 						</div>

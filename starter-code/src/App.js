@@ -3,6 +3,7 @@ import './App.css';
 import foods from './foods.json';
 import 'bulma/css/bulma.css';
 import FoodBox from './components/FoodBox';
+import Search from './components/Search';
 
 class App extends Component {
 	state = {
@@ -48,17 +49,32 @@ class App extends Component {
 			calories: this.state.foodCalories,
 			image: this.state.foodImage
 		};
-		foodArray.push(newFood)
+
+		if (newFood.name != '' && newFood.calories != '' && newFood.image != '') {
+			foodArray.push(newFood);
+
+			this.setState({
+				displayedFoods: foodArray,
+				showForm: false
+			});
+		}
+	};
+
+	searchChange = (e) => {
+		let foodsArray = foods.filter((search) => {
+			return search.name.includes(e.target.value);
+		});
 		
+
 		this.setState({
-			displayedFoods: foodArray,
-			showForm: false
-		})
+			displayedFoods: foodsArray
+		});
 	};
 
 	render() {
 		return (
 			<div className="App">
+				<h1>IronNutrition</h1>
 				<button
 					className="addNewFoodBtn"
 					onClick={() => {
@@ -77,11 +93,12 @@ class App extends Component {
 							placeholder="Calories"
 						/>
 						<input onChange={this.changeFoodImage} name="foodImage" type="text" placeholder="ImageUrl" />
-						<input type="submit" onClick={this.submitFunction} />
+						<input className="submitBtn" type="submit" onClick={this.submitFunction} />
 					</form>
 				) : (
 					''
 				)}
+				<Search searchChange={this.searchChange} />
 				{this.displayFood()}
 			</div>
 		);
